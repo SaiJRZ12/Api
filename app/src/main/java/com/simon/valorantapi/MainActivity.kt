@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import com.simon.valorantapi.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,22 +39,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun searchByName(query: String) {
+        binding.progressBar.isVisible = true
         CoroutineScope(Dispatchers.IO).launch {
             val myResponse: Response<ValorantDataResponse> =
                 retrofit.create(ApiService::class.java).getCharacters(query)
             if (myResponse.isSuccessful) {
                 Log.i("Consulta", "Funciona :)")
+                runOnUiThread {
+                    binding.progressBar.isVisible = false
+                }
             } else {
                 Log.i("Consulta", "No funciona :(")
             }
         }
-
     }
 
     private fun getRetrofit(): Retrofit {
         return Retrofit
             .Builder()
-            .baseUrl("https://valorant-api.com/")
+            .baseUrl("https://api.rawg.io/api/games?key=24198b4b31ec4c709630b24afda4a658&dates=2019-09-01,2019-09-30&platforms=18,1,7/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

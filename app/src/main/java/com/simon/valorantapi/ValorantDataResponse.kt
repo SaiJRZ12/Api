@@ -5,14 +5,15 @@ import java.util.Objects
 
 data class ValorantDataResponse (
 
-    @SerializedName("status") val status: Int,
-    @SerializedName("data") val valorant: List<ValorantItemResponse>
+    @SerializedName("count") val count: Int,
+    @SerializedName("results") val results: List<ValorantItemResponse>,
 
-)
+    )
 
 data class ValorantItemResponse (
 
-    @SerializedName("displayName") val name: String,
-    @SerializedName("description") val descp: String,
-    @SerializedName("fullPortrait") val image: String
+    @SerializedName("name") val name: String,
+    @SerializedName("id") val id: Int,
+    @SerializedName("released") val released: String,
+    @SerializedName("rating") val rating: Int
 )
