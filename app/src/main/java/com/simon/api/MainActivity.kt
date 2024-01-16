@@ -1,14 +1,16 @@
-package com.simon.valorantapi
+package com.simon.api
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.simon.valorantapi.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -17,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var retrofit: Retrofit
+    private lateinit var adapter: Adapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -36,18 +39,31 @@ class MainActivity : AppCompatActivity() {
             override fun onQueryTextChange(newText: String?) = false
 
         })
+
+        adapter = Adapter()
+        binding.rvList.setHasFixedSize(true)
+        binding.rvList.layoutManager = LinearLayoutManager(this)
+        binding.rvList.adapter = adapter
     }
+
+
 
     private fun searchByName(query: String) {
         binding.progressBar.isVisible = true
         CoroutineScope(Dispatchers.IO).launch {
-            val myResponse: Response<ValorantDataResponse> =
-                retrofit.create(ApiService::class.java).getCharacters(query)
+            val myResponse: Response<RAWGDataResponse> =
+                retrofit.create(ApiService::class.java).getGames(query)
             if (myResponse.isSuccessful) {
-                Log.i("Consulta", "Funciona :)")
-                runOnUiThread {
-                    binding.progressBar.isVisible = false
+                Log.i("Consulta", "Funcionaaaaaaaaaaaaa :)")
+                val response: RAWGDataResponse? = myResponse.body()
+                if (response != null) {
+                    Log.i("Cuerpo de la consulta", response.toString())
+                    runOnUiThread {
+                        adapter.updateList(response.results)
+                        binding.progressBar.isVisible = false
+                    }
                 }
+
             } else {
                 Log.i("Consulta", "No funciona :(")
             }
@@ -57,7 +73,7 @@ class MainActivity : AppCompatActivity() {
     private fun getRetrofit(): Retrofit {
         return Retrofit
             .Builder()
-            .baseUrl("https://api.rawg.io/api/games?key=24198b4b31ec4c709630b24afda4a658&dates=2019-09-01,2019-09-30&platforms=18,1,7/")
+            .baseUrl("https://api.rawg.io/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

@@ -1,4 +1,4 @@
-package com.simon.valorantapi
+package com.simon.api
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

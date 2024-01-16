@@ -1,4 +1,4 @@
-package com.simon.valorantapi
+package com.simon.api
 
 import org.junit.Test
 

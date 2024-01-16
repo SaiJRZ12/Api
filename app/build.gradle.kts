@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId = "com.simon.valorantapi"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
@@ -53,4 +53,6 @@ dependencies {
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation ("com.squareup.picasso:picasso:2.8")
 }
