@@ -19,7 +19,7 @@ class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val platformNames = StringBuilder()
 
         for (plataforma in ItemResponse.platforms) {
-            // Aquí solo hay un objeto Plataforma en lugar de una lista
+           
             val plataformaItem = plataforma.platform
 
             platformNames.append(plataformaItem.namePl).append(", ")
