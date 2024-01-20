@@ -18,6 +18,7 @@ class Adapter (var gamesList: List<RAWGItemResponse> = emptyList()) : RecyclerVi
     override fun getItemCount() = gamesList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         holder.bind(gamesList[position])
     }
 

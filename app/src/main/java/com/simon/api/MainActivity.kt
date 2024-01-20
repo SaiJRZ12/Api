@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         adapter = Adapter()
         binding.rvList.setHasFixedSize(true)
-        binding.rvList.layoutManager = LinearLayoutManager(this)
+        binding.rvList.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false)
         binding.rvList.adapter = adapter
     }
 
